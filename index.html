@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guarda Prompts 777</title>
+    <!-- Hoja de estilos en la carpeta css -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <div class="contenedor">
+        <h1 class="titulo">Guarda Prompts 777</h1>
+
+        <!-- Formulario que envía los datos a la ruta /guardar de Python -->
+        <form action="/guardar" method="POST">
+            <div class="formulario">
+                <div class="grupo">
+                    <label for="nombre">Nombre del Prompt:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="ej: Mejorar redacción" required>
+                </div>
+
+                <div class="grupo">
+                    <label for="prompt">Datos del Prompt:</label>
+                    <textarea id="prompt" name="prompt" placeholder="escribe acá el prompt completo..."
+                        required></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-guardar">Guardar Prompt</button>
+        </form>
+
+        <!-- Listado de prompts que vienen desde MySQL a través de Python -->
+        <div class="listado">
+            <h2>Mis Prompts</h2>
+            <div id="contenedorLista">
+
+                {% if prompts|length == 0 %}
+                <p class="sin-prompts">No tienes prompts guardados todavía en la base de datos.</p>
+                {% else %}
+                {% for p in prompts %}
+                <div class="tarjeta-prompt">
+                    <h3>{{ p.nombre }}</h3>
+                    <div class="texto-prompt" id="texto-{{ p.id }}">{{ p.texto }}</div>
+                    <div class="acciones">
+                        <button type="button" class="btn-copiar" onclick="copiarPrompt('{{ p.id }}')">Copiar</button>
+                        <a href="/eliminar/{{ p.id }}" class="btn-borrar"
+                            onclick="return confirm('¿Seguro que quieres borrar este prompt?');">Eliminar</a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Script simple solo para copiar al portapapeles -->
+    <script>
+        function copiarPrompt(id) {
+            var elemento = document.getElementById("texto-" + id);
+            var texto = elemento.innerText;
+
+            navigator.clipboard.writeText(texto).then(function () {
+                alert("¡Prompt copiado al portapapeles!");
+            });
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+/* Estilos básicos y sencillos de principiante */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 20px;
+}
+
+.contenedor {
+    background-color: #ffffff;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #cccccc;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.titulo {
+    text-align: center;
+    color: #333333;
+    margin-top: 0;
+}
+
+.grupo {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555555;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+textarea {
+    height: 90px;
+    resize: vertical;
+}
+
+.btn-guardar {
+    width: 100%;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-guardar:hover {
+    background-color: #218838;
+}
+
+/* Sección de la lista de prompts */
+.listado {
+    margin-top: 30px;
+}
+
+.listado h2 {
+    border-bottom: 2px solid #eeeeee;
+    padding-bottom: 8px;
+    color: #444444;
+    font-size: 20px;
+}
+
+.tarjeta-prompt {
+    background-color: #fafafa;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.tarjeta-prompt h3 {
+    margin: 0 0 6px 0;
+    color: #0066cc;
+    font-size: 16px;
+}
+
+.texto-prompt {
+    background-color: #ffffff;
+    border: 1px dashed #cccccc;
+    padding: 8px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    font-size: 13px;
+    color: #333333;
+    margin: 8px 0;
+}
+
+.acciones {
+    margin-top: 8px;
+}
+
+.btn-copiar {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn-copiar:hover {
+    background-color: #0069d9;
+}
+
+.btn-borrar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 13px;
+    display: inline-block;
+}
+
+.btn-borrar:hover {
+    background-color: #c82333;
+}
+
+.sin-prompts {
+    text-align: center;
+    color: #888888;
+    font-style: italic;
+}
+

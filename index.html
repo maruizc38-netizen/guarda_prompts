@@ -14,59 +14,129 @@
     <div class="contenedor">
         <h1 class="titulo">Guarda Prompts 777</h1>
 
-        <!-- Formulario que envía los datos a la ruta /guardar de Python -->
-        <form action="/guardar" method="POST">
-            <div class="formulario">
-                <div class="grupo">
-                    <label for="nombre">Nombre del Prompt:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="ej: Mejorar redacción" required>
-                </div>
+        <!-- Formulario para agregar un nuevo prompt -->
+        <form id="formPrompt">
+            <div class="grupo">
+                <label for="nombre">Nombre del Prompt:</label>
+                <input type="text" id="nombre" placeholder="ej: Resumir texto, Crear código..." required>
+            </div>
 
-                <div class="grupo">
-                    <label for="prompt">Datos del Prompt:</label>
-                    <textarea id="prompt" name="prompt" placeholder="escribe acá el prompt completo..."
-                        required></textarea>
-                </div>
+            <div class="grupo">
+                <label for="prompt">Texto del Prompt:</label>
+                <textarea id="prompt" placeholder="escribe acá el prompt completo..." required></textarea>
             </div>
 
             <button type="submit" class="btn-guardar">Guardar Prompt</button>
         </form>
 
-        <!-- Listado de prompts que vienen desde MySQL a través de Python -->
+        <!-- Listado donde cada prompt queda guardado en una caja abajo -->
         <div class="listado">
-            <h2>Mis Prompts</h2>
+            <h2>Mis Prompts Guardados</h2>
             <div id="contenedorLista">
-
-                {% if prompts|length == 0 %}
-                <p class="sin-prompts">No tienes prompts guardados todavía en la base de datos.</p>
-                {% else %}
-                {% for p in prompts %}
-                <div class="tarjeta-prompt">
-                    <h3>{{ p.nombre }}</h3>
-                    <div class="texto-prompt" id="texto-{{ p.id }}">{{ p.texto }}</div>
-                    <div class="acciones">
-                        <button type="button" class="btn-copiar" onclick="copiarPrompt('{{ p.id }}')">Copiar</button>
-                        <a href="/eliminar/{{ p.id }}" class="btn-borrar"
-                            onclick="return confirm('¿Seguro que quieres borrar este prompt?');">Eliminar</a>
-                    </div>
-                </div>
-                {% endfor %}
-                {% endif %}
-
+                <!-- Aquí JavaScript colocará las cajas de los prompts -->
             </div>
         </div>
     </div>
 
-    <!-- Script simple solo para copiar al portapapeles -->
+    <!-- JavaScript sencillo sin base de datos (usa localStorage) -->
     <script>
-        function copiarPrompt(id) {
-            var elemento = document.getElementById("texto-" + id);
-            var texto = elemento.innerText;
+        // Arreglo donde se guardan los prompts
+        var listaPrompts = [];
 
-            navigator.clipboard.writeText(texto).then(function () {
+        // 1. Cargar prompts guardados en el navegador al abrir la página
+        function cargarPrompts() {
+            var datos = localStorage.getItem("mis_prompts_777");
+            if (datos !== null) {
+                listaPrompts = JSON.parse(datos);
+            }
+            mostrarPrompts();
+        }
+
+        // 2. Dibujar cada prompt abajo en una caja
+        function mostrarPrompts() {
+            var contenedor = document.getElementById("contenedorLista");
+            contenedor.innerHTML = ""; // Limpiar la lista antes de volver a dibujar
+
+            // Si no hay ninguno guardado
+            if (listaPrompts.length === 0) {
+                contenedor.innerHTML = "<p class='sin-prompts'>No tienes prompts guardados todavía. ¡Guarda el primero arriba!</p>";
+                return;
+            }
+
+            // Recorremos los prompts para crear la caja de cada uno
+            for (var i = 0; i < listaPrompts.length; i++) {
+                var item = listaPrompts[i];
+
+                var caja = document.createElement("div");
+                caja.className = "caja-prompt";
+
+                caja.innerHTML = `
+                    <h3>${item.nombre}</h3>
+                    <div class="texto-prompt" id="texto-${i}">${item.texto}</div>
+                    <div class="acciones">
+                        <button type="button" class="btn-copiar" onclick="copiarPrompt(${i})">Copiar</button>
+                        <button type="button" class="btn-borrar" onclick="borrarPrompt(${i})">Eliminar</button>
+                    </div>
+                `;
+
+                contenedor.appendChild(caja);
+            }
+        }
+
+        // 3. Guardar un nuevo prompt al enviar el formulario
+        document.getElementById("formPrompt").addEventListener("submit", function (evento) {
+            evento.preventDefault(); // Evita que la página se recargue
+
+            var campoNombre = document.getElementById("nombre");
+            var campoTexto = document.getElementById("prompt");
+
+            // Crear el objeto del nuevo prompt
+            var nuevo = {
+                nombre: campoNombre.value,
+                texto: campoTexto.value
+            };
+
+            // Agregarlo a la lista (al inicio para que el más nuevo quede arriba)
+            listaPrompts.unshift(nuevo);
+
+            // Guardar en la memoria del navegador (localStorage)
+            localStorage.setItem("mis_prompts_777", JSON.stringify(listaPrompts));
+
+            // Limpiar los campos para poder escribir otro
+            campoNombre.value = "";
+            campoTexto.value = "";
+
+            // Volver a mostrar las cajas actualizadas
+            mostrarPrompts();
+
+            alert("¡Prompt guardado con éxito!");
+        });
+
+        // 4. Copiar el texto del prompt al portapapeles
+        function copiarPrompt(posicion) {
+            var textoACopiar = listaPrompts[posicion].texto;
+
+            navigator.clipboard.writeText(textoACopiar).then(function () {
                 alert("¡Prompt copiado al portapapeles!");
+            }).catch(function () {
+                // Alternativa por si el navegador bloquea clipboard
+                var elemento = document.getElementById("texto-" + posicion);
+                alert("Texto: " + elemento.innerText);
             });
         }
+
+        // 5. Eliminar una caja de prompt
+        function borrarPrompt(posicion) {
+            var seguro = confirm("¿Seguro que deseas eliminar este prompt?");
+            if (seguro) {
+                listaPrompts.splice(posicion, 1);
+                localStorage.setItem("mis_prompts_777", JSON.stringify(listaPrompts));
+                mostrarPrompts();
+            }
+        }
+
+        // Iniciar la app al cargar
+        cargarPrompts();
     </script>
 
 </body>

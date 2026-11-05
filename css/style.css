@@ -9,7 +9,7 @@ body {
 
 .contenedor {
     background-color: #ffffff;
-    max-width: 500px;
+    max-width: 550px;
     margin: 20px auto;
     padding: 20px;
     border-radius: 8px;
@@ -37,7 +37,7 @@ label {
 input[type="text"],
 textarea {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #cccccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -46,7 +46,7 @@ textarea {
 }
 
 textarea {
-    height: 90px;
+    height: 100px;
     resize: vertical;
 }
 
@@ -66,7 +66,7 @@ textarea {
     background-color: #218838;
 }
 
-/* Sección de la lista de prompts */
+/* Sección de la lista de prompts guardados abajo */
 .listado {
     margin-top: 30px;
 }
@@ -78,43 +78,48 @@ textarea {
     font-size: 20px;
 }
 
-.tarjeta-prompt {
-    background-color: #fafafa;
+/* Caja para cada prompt guardado */
+.caja-prompt {
+    background-color: #f9f9f9;
     border: 1px solid #dddddd;
+    border-left: 5px solid #007bff; /* Rayita azul para que parezca una tarjeta */
     border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
 }
 
-.tarjeta-prompt h3 {
-    margin: 0 0 6px 0;
-    color: #0066cc;
+.caja-prompt h3 {
+    margin: 0 0 8px 0;
+    color: #222222;
     font-size: 16px;
 }
 
 .texto-prompt {
     background-color: #ffffff;
-    border: 1px dashed #cccccc;
-    padding: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
     border-radius: 4px;
     white-space: pre-wrap;
-    font-size: 13px;
+    font-size: 14px;
     color: #333333;
-    margin: 8px 0;
+    margin: 8px 0 12px 0;
+    word-break: break-word;
 }
 
 .acciones {
-    margin-top: 8px;
+    display: flex;
+    gap: 8px;
 }
 
 .btn-copiar {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 6px 12px;
+    padding: 7px 14px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 13px;
+    font-weight: bold;
 }
 
 .btn-copiar:hover {
@@ -125,12 +130,11 @@ textarea {
     background-color: #dc3545;
     color: white;
     border: none;
-    padding: 6px 12px;
+    padding: 7px 14px;
     border-radius: 4px;
     cursor: pointer;
-    text-decoration: none;
     font-size: 13px;
-    display: inline-block;
+    font-weight: bold;
 }
 
 .btn-borrar:hover {
@@ -141,5 +145,5 @@ textarea {
     text-align: center;
     color: #888888;
     font-style: italic;
+    padding: 15px;
 }
-
